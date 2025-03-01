@@ -1,0 +1,49 @@
+name : Python Flask CI/CD
+
+#When Run
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+#Jobs To DO
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Do Test
+        run: PYTHONPATH=. pytest tests/
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST -H "Authorization: rnd_sxLrJjIYFxVknQ2QYC4Ar0RpmMJX" \
+          -H "Accept: application/json" \
+          -H "Content-Type: application/json" \
+          --data '{"serviceId": "srv-ctt38nd2ng1s73c5bf20"}' \
+          https://api.render.com/v1/services/ctt38nd2ng1s73c5bf20/deploys
+

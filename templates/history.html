@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+{% block content%}
+<div class="container mt-5">
+<h1 class="text-center">Prediction</h1>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Average Income</th>
+            <th>Ad Spend per Car</th>
+            <th>Sales to Income Ratio</th>
+            <th>result</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        {%if inputs %}
+
+        {%for input in inputs %}
+        <tr>
+            <td>{{input.Average_Income}}</td>
+            <td>{{input.Ad_Spend_per_Car}}</td>
+            <td>{{input.Sales_to_Income_Ratio}}</td>
+            <td>{{input.result}}</td>
+        </tr>
+        {%endfor%}
+
+
+        {%endif%}
+    </tbody>
+</table>
+
+</div>
+{%endblock%}
